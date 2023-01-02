@@ -4,46 +4,35 @@ const url = `https://api.nasa.gov/planetary/apod?api_key=${NASA_KEY}`;
 
 const appNode = document.querySelector("#app");
 
-const formatPrice = (price) => {
-   const newPrice = new window.Intl.NumberFormat('en-EN', {
-    style: 'currency',
-    currency: 'USD'
-}).format(price)
-    return newPrice;
-}
-
-
 window
 .fetch(url)
 .then(response => response.json())
 .then((responseJson) => {
     const allTheItems = []
-    // responseJson.data.forEach(item => {
         const image = document.createElement('img');
-        // image.src = `${baseUrl}${item.image}`;
         image.src = responseJson.hdurl;
-        image.className = 'w-64'
+        image.className = 'w-1/2 h-full mx-auto';
 
         const title = document.createElement('h2');
         title.textContent = responseJson.title;
-        title.className = "text-2xl text-red-600"
-        // title.style.fontSize = "3rem"
+        title.className = "text-2xl text-black my-3"
 
-        // const price = document.createElement('div');
-        // price.textContent = formatPrice(item.price);
         const date = document.createElement('div');
-        date.textContent = responseJson.date
-        date.className = " ";
+        date.textContent = responseJson.date;
+        date.className = "my-1";
+
+        const descriptionTitle = document.createElement('p');
+        descriptionTitle.textContent = "Description";
+        descriptionTitle.className = "text-black mb-1 text-2xl";
 
         const description = document.createElement('div');
         description.textContent = responseJson.explanation;
-        description.className = ' ';
+        description.className = 'text-gray-500 leading-relaxed';
 
         const container = document.createElement('div');
-        container.append(image, title, date, description);
+        container.append(image, title, date, descriptionTitle, description);
+        container.className = "mt-4 p-2 h-full flex flex-col justify-center";
         allTheItems.push(container);
-        
-    // }
-    // );
+
     appNode.append(...allTheItems);
 })
